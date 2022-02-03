@@ -31,7 +31,6 @@ public class Solution {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println(horse(scanner.nextLong(),scanner.nextLong()));
-        String[] arg = new String[0];
-        main(arg);
+
     }
 }

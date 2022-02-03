@@ -11,6 +11,7 @@ public class Solution {
             x = temp;
             n--;
         }
+
         return x;
     }
 
@@ -26,7 +27,7 @@ public class Solution {
         }
         Collections.sort(A);
 
-        System.out.println(A);
+        
         System.out.println(findX(n, A));
 
     }
