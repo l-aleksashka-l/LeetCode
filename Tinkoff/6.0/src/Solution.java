@@ -1,46 +1,51 @@
-import com.sun.jdi.ArrayReference;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 class Solution {
 
-    static Set<Integer> X = new HashSet<>();
+
     static ArrayList<Integer> fullX = new ArrayList<>();
     static int counter = 0;
-    static int fullCounter = 0;
+
 
     public static void A(int value) {
-        if (!fullX.contains(value)) {
-            counter++;
-        }
-        X.add(value);
-        fullCounter++;
+        fullX.add(value);
+        counter++;
     }
 
     public static void D(int value){
-        int a = 0;
-        for(int digit: fullX){
-            if(digit == value && a==1) {DD(value); break;}
-            if(digit == value && a==0) {fullX.remove(digit); a = a + 1; }
+        for(int i = 0; i < fullX.size()-1; i++)
+        if(fullX.get(i) == value) {
+            fullX.remove(i);
+            break;
         }
-        fullCounter--;
-    }
-
-    public static void DD(int value){
-        X.remove(value);
         counter--;
     }
 
-    public static void Q(int value){
-        if(fullCounter%2==1 || counter%2==1){
-
-        }
+    public static int Q(){
+        if(counter%2==1)return -1;
+        Collections.sort(fullX);
+        if(fullX.get(counter/2-1) == fullX.get(counter/2))return -1;
+        else return fullX.get(counter/2) - 1;
     }
 
     public static void main(String[] args) {
-        int mediana;
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int i = 0;
+        while (i <= n){
+            String letter = scanner.next();
 
+            if(letter.equals("A")){
+                String X = scanner.next();
+                String Y = scanner.next();
+                A(Integer.parseInt(X));}
+            else if(letter.equals("D")){
+                String X = scanner.next();
+                String Y = scanner.next();
+                D(Integer.parseInt(X));}
+            else {System.out.println(Q());}
+
+        } System.out.println(" ");
     }
 }
+
