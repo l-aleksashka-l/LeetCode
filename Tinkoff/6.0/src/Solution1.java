@@ -30,6 +30,7 @@ class Solution1 {
 
     public static void D(int value){
         X.set(value, X.get(value)-1);
+        counter--;
         if(value>index_a) {
             R--;
         }
