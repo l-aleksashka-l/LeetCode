@@ -1,45 +1,23 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.beans.IntrospectionException;
+import java.util.*;
 
 public class Solution {
     static String full;
     static String first;
     static String second;
-    static boolean word = true;
-    static boolean temp = true;
-    static int I = 0, F = 0, S = 0, II = 0;
+    static int I = 0, F = 0, S = 0, WHICH = 0;
     static int change = 0;
+    static Set<Integer> firstList = new HashSet<>();
+    static Set<Integer> secondList = new HashSet<>();
+    static Map<Character, Set<Integer>> firstMap = new HashMap<>();
+    static Map<Character, Set<Integer>> secondMap = new HashMap<>();
 
-
-    public static void compareF(int i, int f) {
-        if (f == first.length()) {
-            word = false;
-        } else {
-            if (full.charAt(i) == first.charAt(f)) {
-                I++;
-                II++;
-                F++;
-                System.out.println(full.charAt(i) + " " + first.charAt(f) + " " + word);
-            } else {
-                II++;
-                word = false;
-            }
-        }
-    }
-
-    public static void compareS(int i, int s) {
-        if (s == second.length()) {
-            word = true;
-        } else {
-            if (full.charAt(i) == second.charAt(s)) {
-                I++;
-                II++;
-                S++;
-                System.out.println(full.charAt(i) + " " + second.charAt(s) + " " + word);
-            } else {
-                II++;
-                word = true;
-            }
+    public static int coincidence() {
+        int i = I;
+        while(i < full.length()){
+            char l = full.charAt(i);
+            Set<Integer> f = firstMap.get(full.charAt(i));
+            Set<Integer> s = secondMap.get(full.charAt(i));
         }
     }
 
@@ -48,56 +26,73 @@ public class Solution {
         first = "gab";
         second = "agaac";
 
-
-        if (second.charAt(S) == first.charAt(F)) {
-
-            while (I < full.length()) {
-                if(word != temp) {temp = word; change++;}
-
-                if (word) {
-                    compareF(I, F);
-                } else {
-                    compareS(I, S);
-                }
-                if (II == 2 * full.length()) {
-                    break;
-                }
+        while (F < first.length()) {
+            if (firstMap.containsKey(first.charAt(F))) {
+                firstList = firstMap.get(first.charAt(F));
+            } else {
+                firstList = new HashSet<>();
             }
-            int changeF = change;
-            I = 0;
-            F = 0;
-            S = 0;
-            II = 0;
-            change = 0;
-            word = false;
-            temp = false;
-            while (I < full.length()) {
-                if(word != temp) {temp = word; change++;}
-
-                if (word) {
-                    compareF(I, F);
-                } else {
-                    compareS(I, S);
-                }
-                if (II == 2 * full.length()) {
-                    break;
-                }
-            }
-
-            System.out.println(Math.min(changeF, change));
-        } else {
-            if (full.charAt(I) != first.charAt(F)) {word = false; temp = word;}
-
-            while (I < full.length()) {
-                if(word != temp) {temp = word; change++;}
-                if (word) {
-                    compareF(I, F);
-                } else {
-                    compareS(I, S);
-                }
-
-                System.out.println(change);
-            }
+            firstList.add(F + 1);
+            firstMap.put(first.charAt(F), firstList);
+            F++;
         }
+        while (S < second.length()) {
+            if (secondMap.containsKey(second.charAt(S))) {
+                secondList = secondMap.get(second.charAt(S));
+            } else {
+                secondList = new HashSet<>();
+            }
+            secondList.add(S + 1);
+            secondMap.put(second.charAt(S), secondList);
+            S++;
+        }
+
+        System.out.println(firstMap);
+        System.out.println(secondMap);
+
+        while (I < full.length()) {
+            char l = full.charAt(I);
+            Set<Integer> f = firstMap.get(full.charAt(I));
+            Set<Integer> s = secondMap.get(full.charAt(I));
+            if (firstMap.containsKey(l) && secondMap.containsKey(l)) {
+                if (f.isEmpty()) f.add(Integer.MAX_VALUE);
+                if (s.isEmpty()) s.add(Integer.MAX_VALUE);
+                if (f.stream().findFirst().get() < s.stream().findFirst().get()) {
+
+                    if (WHICH == 1) {
+                        change++;
+                    }
+
+                    f.remove(f.stream().findFirst().get());
+                    I++;
+                    WHICH = 0;
+                } else if (f.stream().findFirst().get() > s.stream().findFirst().get()) {
+
+                    if (WHICH == 0) {
+                        change++;
+                    }
+
+                    s.remove(f.stream().findFirst().get());
+                    I++;
+                    WHICH = 1;
+                } else {
+                    if (I != 0) {
+                        if (WHICH == 0) {
+                            f.remove(f.stream().findFirst().get());
+                            I++;
+                        } else {
+                            s.remove(f.stream().findFirst().get());
+                            I++;
+                        }
+                    }else{
+
+                    }
+
+                }
+            }
+
+        }
+
+
     }
 }
