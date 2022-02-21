@@ -12,19 +12,11 @@ public class Solution {
     static Map<Character, Set<Integer>> firstMap = new HashMap<>();
     static Map<Character, Set<Integer>> secondMap = new HashMap<>();
 
-    public static int coincidence() {
-        int i = I;
-        while(i < full.length()){
-            char l = full.charAt(i);
-            Set<Integer> f = firstMap.get(full.charAt(i));
-            Set<Integer> s = secondMap.get(full.charAt(i));
-        }
-    }
 
     public static void main(String[] args) {
-        full = "gagabaac";
-        first = "gab";
-        second = "agaac";
+        full = "sttooopp";
+        first = "top";
+        second = "stoop";
 
         while (F < first.length()) {
             if (firstMap.containsKey(first.charAt(F))) {
@@ -52,9 +44,9 @@ public class Solution {
 
         while (I < full.length()) {
             char l = full.charAt(I);
-            Set<Integer> f = firstMap.get(full.charAt(I));
-            Set<Integer> s = secondMap.get(full.charAt(I));
             if (firstMap.containsKey(l) && secondMap.containsKey(l)) {
+                Set<Integer> f = firstMap.get(full.charAt(I));
+                Set<Integer> s = secondMap.get(full.charAt(I));
                 if (f.isEmpty()) f.add(Integer.MAX_VALUE);
                 if (s.isEmpty()) s.add(Integer.MAX_VALUE);
                 if (f.stream().findFirst().get() < s.stream().findFirst().get()) {
@@ -84,15 +76,31 @@ public class Solution {
                             s.remove(f.stream().findFirst().get());
                             I++;
                         }
-                    }else{
-
                     }
 
                 }
+            } else if (firstMap.containsKey(l)) {
+
+                if (WHICH == 1) {
+                    change++;
+                }
+
+                firstMap.get(full.charAt(I)).remove(firstMap.get(full.charAt(I)).stream().findFirst().get());
+                I++;
+                WHICH = 0;
+            } else {
+
+                if (WHICH == 0) {
+                    change++;
+                }
+
+                secondMap.get(full.charAt(I)).remove(secondMap.get(full.charAt(I)).stream().findFirst().get());
+                I++;
+                WHICH = 1;
             }
-
         }
-
-
+        System.out.println(change);
     }
+
 }
+
