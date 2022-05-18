@@ -1,2 +1,4 @@
 # LeetCode  
-Tasks from LeetCode
+Tasks from LeetCode  
+Update with Mac)
+
